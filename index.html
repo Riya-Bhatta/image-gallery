@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Filter</title>
+    <style>
+        body {
+            line-height: 1.5;
+            font-family: sans-serif;
+        }
+
+        * {
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1170px;
+            margin: auto;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        img {
+            max-width: 100%;
+            vertical-align: middle;
+        }
+
+        .gallery {
+            width: 100%;
+            display: block;
+            min-height: 100vh;
+            background-color: #2a2932;
+            padding: 100px 0;
+        }
+
+        .gallery-filter {
+           /* background-color: rgb(87, 87, 211);*/
+            padding: 0 15px;
+            width: 1170px;
+            justify-content: center;
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filter-item {
+            color: #ffffff;
+            font-size: 18px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            line-height: 1.2;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+            list-style: none;
+        }
+
+        .filter-item.active {
+            color: #ff9800;
+            border-color: #ff9800;
+        }
+        .gallery-stuff:hover{
+           background-color: rgb(83, 28, 121);
+        }
+
+        
+
+        .gallery-stuff {
+            width: calc(100% / 8);
+            height: 260px;
+            max-width:230px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            padding: 10px;
+            box-shadow: 0px 0px 10px 2px white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item-inner img {
+            width: 100%;
+        }
+
+        .gallery-item.show {
+            animation: fadein 0.5s ease;
+        }
+
+        @keyframes fadein {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .gallery-item.hide {
+            display: none;
+        }
+
+        .zoom-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.9);
+            height: 100%;
+            width: 100%;
+            z-index: 100;
+            display: none;
+        }
+
+        .zoom-image span {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            font-weight: bolder;
+            color: #fff;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        .zoom-image img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 5px solid #fff;
+            border-radius: 5px;
+            width: 750px;
+            object-fit: cover;
+        }
+
+        @media(max-width: 768px) {
+            .zoom-image img {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="gallery">
+        <div class="container">
+            <div class="row">
+                <ul class="gallery-filter">
+                    <li class="filter-item active" data-filter="all">all</li>
+                    <li class="filter-item" data-filter="flower">flower</li>
+                    <li class="filter-item" data-filter="animal">animal</li>
+                    <li class="filter-item" data-filter="stationary">stationary</li>
+                </ul>
+            </div>
+            <div class="row">
+                <div class="gallery-item animal">
+                    <div class="gallery-item-inner">
+                        <img class="gallery-stuff" src="./image/anml1.jpg" alt="animal">
+                    </div>
+                </div>
+                <div class="gallery-item flower">
+                    <div class="gallery-item-inner">
+                        <img class="gallery-stuff" src="./image/flwr6.jpg" alt="flower">
+                    </div>
+                </div>
+                <div class="gallery-item stationary">
+                    <div class="gallery-item-inner">
+                        <img class="gallery-stuff" src="./image/stonry2.jpg" alt="stationary">
+                    </div>
+                </div>
+                <div class="gallery-item animal">
+                    <div class="gallery-item-inner">
+                        <img class="gallery-stuff" src="./image/anml2.jpg" alt="animal">
+                    </div>
+                </div>
+                <div class="gallery-item flower">
+                    <div class="gallery-item-inner">
+                        <img class="gallery-stuff" src="./image/flwr7.jpg" alt="flower">
+                    </div>
+                </div>
+                <div class="gallery-item stationary">
+                    <div class="gallery-item-inner">
+                        <img class="gallery-stuff" src="./image/stonry3.jpg" alt="stationary">
+                    </div>
+                </div>
+                <div class="gallery-item animal">
+                    <div class="gallery-item-inner">
+                        <img class="gallery-stuff" src="./image/anml8.jpg" alt="animal">
+                    </div>
+                </div>
+                <div class="gallery-item flower">
+                    <div class="gallery-item-inner">
+                        <img class="gallery-stuff" src="./image/flwr8.jpg" alt="flower">
+                    </div>
+                </div>
+                <div class="gallery-item stationary">
+                    <div class="gallery-item-inner">
+                        <img class="gallery-stuff" src="./image/stonry5.jpg" alt="stationary">
+                    </div>
+                </div>
+                <div class="gallery-item stationary">
+                    <div class="gallery-item-inner">
+                        <img class="gallery-stuff" src="./image/stonry6.jpg" alt="stationary">
+                    </div>
+                </div>
+            </div>
+            <div class="zoom-image">
+                <span>&times;</span>
+                <img src="" alt="zoomed image">
+            </div>
+        </div>
+    </section>
+    <script>
+        const filterContainer = document.querySelector('.gallery-filter');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const zoomImage = document.querySelector('.zoom-image');
+        const zoomImageClose = document.querySelector('.zoom-image span');
+        const zoomImageImg = document.querySelector('.zoom-image img');
+
+        filterContainer.addEventListener('click', (event) => {
+            if (event.target.classList.contains('filter-item')) {
+                filterContainer.querySelector('.active').classList.remove('active');
+                event.target.classList.add('active');
+                const filterValue = event.target.getAttribute('data-filter');
+
+                galleryItems.forEach((item) => {
+                    if (filterValue === 'all') {
+                        item.classList.remove('hide');
+                        item.classList.add('show');
+                    } else if (item.classList.contains(filterValue)) {
+                        item.classList.remove('hide');
+                        item.classList.add('show');
+                    } else {
+                        item.classList.remove('show');
+                        item.classList.add('hide');
+                    }
+                });
+            }
+        });
+
+        document.querySelectorAll('.gallery-stuff').forEach(image => {
+            image.onclick = () => {
+                zoomImage.style.display = 'block';
+                zoomImageImg.src = image.getAttribute('src');
+            };
+        });
+
+        zoomImageClose.onclick = () => {
+            zoomImage.style.display = 'none';
+        };
+    </script>
+</body>
+
+</html>
